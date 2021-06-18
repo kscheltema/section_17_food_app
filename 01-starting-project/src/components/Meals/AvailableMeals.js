@@ -28,7 +28,7 @@ const AvailableMeals = () => {
       setIsLoading(false);
     };
     fetchMeals();
-  }, []); //only need to run this component once thus no dependancy required.
+  }, []); //only need to run this component once thus no dependance required.
 
   if (isLoading) {
     return (

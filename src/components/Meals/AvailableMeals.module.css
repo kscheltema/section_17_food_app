@@ -14,7 +14,15 @@
 .MealsLoading {
   text-align: center;
   color: #f1f1f1;
-  font-size: xx-large;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.MealsError {
+  text-align: center;
+  color: #a50404;
+  font-size: x-large;
+  font-weight: bold;
 }
 
 @keyframes meals-appear {

@@ -87,9 +87,15 @@ const Cart = (props) => {
   const isSubmittingModalContent = <p>Sending order data...</p>;
 
   const didSubmitModalContent = (
-    <p>
-      Successfully send the order! <br /> we will be in touch shortly.
-    </p>
+    <React.Fragment>
+      <p>Successfully send the order! </p>
+      <p>We will be in touch shortly.</p>
+      <div className={classes.actions}>
+        <button className={classes.button} onClick={props.onClose}>
+          Close
+        </button>
+      </div>
+    </React.Fragment>
   );
 
   return (

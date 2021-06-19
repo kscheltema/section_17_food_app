@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import Modal from "../UI/Modal";
 import Checkout from "./Checkout";
 import CartItem from "./CartItem";
@@ -6,6 +6,8 @@ import classes from "./Cart.module.css";
 import CartContext from "../../store/cart-context";
 
 const Cart = (props) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
   const [isCheckout, setIsCheckout] = useState(false);
   const cartCtx = useContext(CartContext);
 
@@ -24,8 +26,9 @@ const Cart = (props) => {
     setIsCheckout(true);
   };
 
-  const submitOrderHandler = (userData) => {
-    fetch(
+  const submitOrderHandler = async (userData) => {
+    setIsSubmitting(true);
+    await fetch(
       "https://burgerbuilder-89b34-default-rtdb.firebaseio.com/orders.json",
       {
         method: "POST",
@@ -35,6 +38,8 @@ const Cart = (props) => {
         }),
       }
     );
+    setIsSubmitting(false);
+    setDidSubmit(true);
   };
 
   const cartItems = (
@@ -65,8 +70,8 @@ const Cart = (props) => {
     </div>
   );
 
-  return (
-    <Modal onClose={props.onClose}>
+  const cartModalContent = (
+    <React.Fragment>
       {cartItems}
       <div className={classes.total}>
         <span>Total Amount</span>
@@ -76,6 +81,22 @@ const Cart = (props) => {
         <Checkout onConfirm={submitOrderHandler} onCancel={props.onClose} />
       )}
       {!isCheckout && modalActionButtons}
+    </React.Fragment>
+  );
+
+  const isSubmittingModalContent = <p>Sending order data...</p>;
+
+  const didSubmitModalContent = (
+    <p>
+      Successfully send the order! <br /> we will be in touch shortly.
+    </p>
+  );
+
+  return (
+    <Modal onClose={props.onClose}>
+      {!isSubmitting && !didSubmit && cartModalContent}
+      {isSubmitting && isSubmittingModalContent}
+      {!isSubmitting && didSubmit && didSubmitModalContent}
     </Modal>
   );
 };

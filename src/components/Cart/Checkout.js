@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
-
 import classes from "./Checkout.module.css";
+//should not trust client side validation due to hacking
+//should have server side validation as well.
 
 const isEmpty = (value) => value.trim() === "";
 const isFiveChars = (value) => value.trim().length === 5;
